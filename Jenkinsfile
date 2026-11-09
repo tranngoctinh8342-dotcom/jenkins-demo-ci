@@ -4,40 +4,39 @@ pipeline {
     stages {
         stage('1. Checkout Code') {
             steps {
-                echo '=== Đang kéo mã nguồn mới nhất từ GitHub ==='
+                echo '=== Dang keo ma nguon moi nhat tu GitHub ==='
                 checkout scm
             }
         }
 
-        stage('2. Build & Kiểm tra môi trường') {
+        stage('2. Build & Kiem tra moi truong') {
             steps {
-                echo '=== Kiểm tra môi trường thực thi ==='
-                // Tùy theo máy chạy Windows (bat) hay Linux/Docker (sh)
-                sh 'node -v || true'
+                echo '=== Kiem tra moi truong Node.js tren Windows ==='
+                bat 'node -v'
             }
         }
 
-        stage('3. Unit Test (Kiểm định chất lượng)') {
+        stage('3. Unit Test (Kiem dinh chat luong)') {
             steps {
-                echo '=== Khởi chạy bộ kiểm thử tự động ==='
-                sh 'node test.js'
+                echo '=== Khoi chay bo kiem thu tu dong ==='
+                bat 'node test.js'
             }
         }
 
-        stage('4. Đóng gói (Packaging)') {
+        stage('4. Dong goi (Packaging)') {
             steps {
-                echo '=== Kiểm thử thành công! Đang đóng gói sản phẩm ==='
-                sh 'tar -czvf app-release.tar.gz calculator.js || echo "Packaged successfully"'
+                echo '=== Kiem thu thanh cong! Dang dong goi san pham ==='
+                bat 'tar -czvf app-release.tar.gz calculator.js'
             }
         }
     }
 
     post {
         success {
-            echo ' THÔNG BÁO: Pipeline hoàn tất! Bản build đủ điều kiện phát hành.'
+            echo ' THONG BAO: Pipeline thanh cong! San pham dat tieu chuan phat hanh.'
         }
         failure {
-            echo ' CẢNH BÁO: Phát hiện lỗi mã nguồn! Đã chặn quy trình phát hành.'
+            echo ' CANH BAO: Ma nguon co loi! Quy trinh bi chan dung.'
         }
     }
 }
